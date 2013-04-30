@@ -1,0 +1,478 @@
+\usepackage{tikz}
+\usepackage{pgf}
+\usetikzlibrary{positioning}
+\usepgflibrary{arrows} % for pgf-umlsd
+\usetikzlibrary{shadows,shapes,arrows}
+\usetikzlibrary{calc,3d}
+\usetikzlibrary{fit}
+\usepgflibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{trees} 
+
+\tikzstyle{subject}=[shape=circle, draw=black, minimum size=6mm]
+\tikzstyle{object}=[shape=rectangle, draw=black, minimum size=6mm]
+
+\tikzstyle{ioi}=[rectangle, draw=black, fill=black!20, minimum size=2mm]
+
+\tikzstyle{event}=[rectangle, draw=black, fill=black!0, minimum size=2mm]
+
+\tikzstyle{sample}=[shape=circle,draw, fill=black,minimum size=5pt, inner sep=0pt]
+\tikzstyle{track}=[thick, ->]
+\tikzstyle{map}=[thick, ->]
+\tikzstyle{bracedeco}=[decorate, decoration=brace,very thick] %amplitude
+
+\usepackage{array} % used for extrarowheight
+
+\newcommand\diag[4]{%
+  \multicolumn{1}{p{#2}|}{\hskip-\tabcolsep
+  $\vcenter{\begin{tikzpicture}[baseline=0,anchor=south west,inner sep=#1]
+  \path[use as bounding box] (0,0) rectangle (#2+2\tabcolsep,\baselineskip);
+  \node[minimum width={#2+2\tabcolsep},minimum height=\baselineskip+\extrarowheight] (box) {};
+  \draw (box.north west) -- (box.south east);
+  \node[anchor=south west] at (box.south west) {#3};
+  \node[anchor=north east] at (box.north east) {#4};
+ \end{tikzpicture}}$\hskip-\tabcolsep}}
+
+
+%% Create a rudimentary bar-plot 
+%% used eg. for graphical recognition of finite distributions
+\newcounter{MYstep}
+\newcommand{\MYbarplot}[3]{ %commaseparated bar heights, scale width, height
+\setcounter{MYstep}{0}
+\begin{tikzpicture}[baseline=0pt]
+  %\tikz[baseline=0pt]
+  \pgfplothandlerycomb
+  \pgfplotstreamstart
+  \foreach \MYheight in {#1} {
+    \pgfplotstreampoint{\pgfpoint{#2*\value{MYstep}}{#3*\MYheight}};
+    \addtocounter{MYstep}{1}
+  }
+  \pgfplotstreamend
+  \pgfsetlinewidth{.6*#2}
+  \color{black}
+  \pgfsetstrokecolor{black}
+  \pgfusepath{stroke}
+\end{tikzpicture}
+}
+
+
+
+\makeatletter
+\pgfdeclareshape{switch}{
+    \savedanchor{\ne}{
+      \pgf@x=\wd\pgfnodeparttextbox
+      \pgf@y=\wd\pgfnodeparttextbox
+      \advance\pgf@y by 1.2\ht\pgfnodeparttextbox
+    }
+    \savedanchor{\se}{
+      \pgf@x=\wd\pgfnodeparttextbox
+      \pgf@y=0cm
+      \advance\pgf@y by 1.2\ht\pgfnodeparttextbox
+    }
+    \savedanchor{\nw}{
+      \pgf@x=0cm
+      \pgf@y=\wd\pgfnodeparttextbox
+      \advance\pgf@y by 1.2\ht\pgfnodeparttextbox
+    }
+    \savedanchor{\sw}{
+      \pgf@x=0cm
+      \pgf@y=0cm
+      \advance\pgf@y by 1.2\ht\pgfnodeparttextbox
+    }
+    \savedanchor{\c}{
+      \pgf@x=.5\wd\pgfnodeparttextbox
+      \pgf@y=.5\wd\pgfnodeparttextbox
+      \advance\pgf@y by 1.2\ht\pgfnodeparttextbox
+    }
+
+    \savedanchor{\ane}{
+      \pgf@x=.53\wd\pgfnodeparttextbox
+      \pgf@y=.8\wd\pgfnodeparttextbox
+      \advance\pgf@y by 1.2\ht\pgfnodeparttextbox
+    }
+    \savedanchor{\ase}{
+      \pgf@x=.53\wd\pgfnodeparttextbox
+      \pgf@y=.5\wd\pgfnodeparttextbox
+      \advance\pgf@y by 1.2\ht\pgfnodeparttextbox
+    }
+    \savedanchor{\anw}{
+      \pgf@x=.47\wd\pgfnodeparttextbox
+      \pgf@y=.5\wd\pgfnodeparttextbox
+      \advance\pgf@y by 1.2\ht\pgfnodeparttextbox
+    }
+    \savedanchor{\asw}{
+      \pgf@x=.47\wd\pgfnodeparttextbox
+      \pgf@y=.2\wd\pgfnodeparttextbox
+      \advance\pgf@y by 1.2\ht\pgfnodeparttextbox
+    }
+
+    \anchor{center}{\c}
+
+    \anchor{north}{
+      \pgfpointadd{\nw}{\pgfpointscale{.5}{\pgfpointdiff{\nw}{\ne}}}
+    }
+    \anchor{west}{
+      \pgfpointadd{\nw}{\pgfpointscale{.5}{\pgfpointdiff{\nw}{\sw}}}
+    }
+    \anchor{east}{
+      \pgfpointadd{\ne}{\pgfpointscale{.5}{\pgfpointdiff{\ne}{\se}}}
+    }
+    \anchor{south}{ % beneath text
+      \pgfpointadd{\sw}{\pgfpointscale{.5}{\pgfpointdiff{\sw}{\se}}}
+    }
+    \anchor{north east}{\ne}
+    \anchor{north west}{\nw}
+    \anchor{south east}{\se}
+    \anchor{south west}{\sw}
+    \anchorborder{% fixme
+      % Call a function that computes a border point. Since this
+      % function will modify dimensions like \pgf@x, we must move them to
+      % other dimensions.
+      \@tempdima=\pgf@x
+      \@tempdimb=\pgf@y
+      \pgfpointborderrectangle{\pgfpoint{\@tempdima}{\@tempdimb}}{\ne}
+    }
+    
+    \backgroundpath{
+      \pgfpathmoveto{\ne}
+      \pgfpathlineto{\se}
+      \pgfpathlineto{\sw}
+      \pgfpathlineto{\nw}
+      \pgfpathclose
+%    }    
+%    \foregroundpath{
+      % upper right arrow
+      \pgfpathmoveto{\pgfpointadd{\ane}{\pgfpoint{0cm}{0cm}}} %\pgfpointscale{.2}{\pgfpointdiff{\c}{\ne}}}}
+      \pgfpathlineto{\pgfpointadd{\ane}{\pgfpoint{.32\wd\pgfnodeparttextbox}{0cm}}}
+      \pgfpathlineto{\pgfpointadd{\ane}{\pgfpoint{.32\wd\pgfnodeparttextbox}{.03\wd\pgfnodeparttextbox}}}
+      \pgfpathlineto{\pgfpointadd{\ane}{\pgfpoint{.37\wd\pgfnodeparttextbox}{-.05\wd\pgfnodeparttextbox}}} %tip
+      \pgfpathlineto{\pgfpointadd{\ane}{\pgfpoint{.32\wd\pgfnodeparttextbox}{-.13\wd\pgfnodeparttextbox}}}
+      \pgfpathlineto{\pgfpointadd{\ane}{\pgfpoint{.32\wd\pgfnodeparttextbox}{-.1\wd\pgfnodeparttextbox}}}
+      \pgfpathlineto{\pgfpointadd{\ane}{\pgfpoint{0cm}{-.1\wd\pgfnodeparttextbox}}}
+      \pgfpathclose
+      % se arrow
+      \pgfpathmoveto{\pgfpointadd{\ase}{\pgfpoint{0cm}{0cm}}} %\pgfpointscale{.2}{\pgfpointdiff{\c}{\ne}}}}
+      \pgfpathlineto{\pgfpointadd{\ase}{\pgfpoint{.32\wd\pgfnodeparttextbox}{0cm}}}
+      \pgfpathlineto{\pgfpointadd{\ase}{\pgfpoint{.32\wd\pgfnodeparttextbox}{.03\wd\pgfnodeparttextbox}}}
+      \pgfpathlineto{\pgfpointadd{\ase}{\pgfpoint{.37\wd\pgfnodeparttextbox}{-.05\wd\pgfnodeparttextbox}}} %tip
+      \pgfpathlineto{\pgfpointadd{\ase}{\pgfpoint{.32\wd\pgfnodeparttextbox}{-.13\wd\pgfnodeparttextbox}}}
+      \pgfpathlineto{\pgfpointadd{\ase}{\pgfpoint{.32\wd\pgfnodeparttextbox}{-.1\wd\pgfnodeparttextbox}}}
+      \pgfpathlineto{\pgfpointadd{\ase}{\pgfpoint{0cm}{-.1\wd\pgfnodeparttextbox}}}
+      \pgfpathclose
+%      \pgfpathmoveto{}
+      
+      % upper left arrow
+      \pgfpathmoveto{\pgfpointadd{\anw}{\pgfpointscale{-1}{\pgfpoint{0cm}{0cm}}}} %\pgfpointscale{.2}{\pgfpointdiff{\c}{\ne}}}}
+      \pgfpathlineto{\pgfpointadd{\anw}{\pgfpointscale{-1}{\pgfpoint{.32\wd\pgfnodeparttextbox}{0cm}}}}
+      \pgfpathlineto{\pgfpointadd{\anw}{\pgfpointscale{-1}{\pgfpoint{.32\wd\pgfnodeparttextbox}{.03\wd\pgfnodeparttextbox}}}}
+      \pgfpathlineto{\pgfpointadd{\anw}{\pgfpointscale{-1}{\pgfpoint{.37\wd\pgfnodeparttextbox}{-.05\wd\pgfnodeparttextbox}}}} %tip
+      \pgfpathlineto{\pgfpointadd{\anw}{\pgfpointscale{-1}{\pgfpoint{.32\wd\pgfnodeparttextbox}{-.13\wd\pgfnodeparttextbox}}}}
+      \pgfpathlineto{\pgfpointadd{\anw}{\pgfpointscale{-1}{\pgfpoint{.32\wd\pgfnodeparttextbox}{-.1\wd\pgfnodeparttextbox}}}}
+      \pgfpathlineto{\pgfpointadd{\anw}{\pgfpointscale{-1}{\pgfpoint{0cm}{-.1\wd\pgfnodeparttextbox}}}}
+      \pgfpathclose
+      % upper left arrow
+      \pgfpathmoveto{\pgfpointadd{\asw}{\pgfpointscale{-1}{\pgfpoint{0cm}{0cm}}}} %\pgfpointscale{.2}{\pgfpointdiff{\c}{\ne}}}}
+      \pgfpathlineto{\pgfpointadd{\asw}{\pgfpointscale{-1}{\pgfpoint{.32\wd\pgfnodeparttextbox}{0cm}}}}
+      \pgfpathlineto{\pgfpointadd{\asw}{\pgfpointscale{-1}{\pgfpoint{.32\wd\pgfnodeparttextbox}{.03\wd\pgfnodeparttextbox}}}}
+      \pgfpathlineto{\pgfpointadd{\asw}{\pgfpointscale{-1}{\pgfpoint{.37\wd\pgfnodeparttextbox}{-.05\wd\pgfnodeparttextbox}}}} %tip
+      \pgfpathlineto{\pgfpointadd{\asw}{\pgfpointscale{-1}{\pgfpoint{.32\wd\pgfnodeparttextbox}{-.13\wd\pgfnodeparttextbox}}}}
+      \pgfpathlineto{\pgfpointadd{\asw}{\pgfpointscale{-1}{\pgfpoint{.32\wd\pgfnodeparttextbox}{-.1\wd\pgfnodeparttextbox}}}}
+      \pgfpathlineto{\pgfpointadd{\asw}{\pgfpointscale{-1}{\pgfpoint{0cm}{-.1\wd\pgfnodeparttextbox}}}}
+      \pgfpathclose
+
+      
+    }
+}
+\makeatother
+
+\makeatletter
+\pgfdeclareshape{router}{
+    \inheritsavedanchors[from=circle] % this is nearly a rectangle
+
+
+    \savedanchor{\ne}{
+      \pgf@x=\wd\pgfnodeparttextbox
+      \pgf@y=\wd\pgfnodeparttextbox
+      \advance\pgf@y by 1.2\ht\pgfnodeparttextbox
+    }
+    \savedanchor{\se}{
+      \pgf@x=\wd\pgfnodeparttextbox
+      \pgf@y=0cm
+      \advance\pgf@y by 1.2\ht\pgfnodeparttextbox
+    }
+    \savedanchor{\nw}{
+      \pgf@x=0cm
+      \pgf@y=\wd\pgfnodeparttextbox
+      \advance\pgf@y by 1.2\ht\pgfnodeparttextbox
+    }
+    \savedanchor{\sw}{
+      \pgf@x=0cm
+      \pgf@y=0cm
+      \advance\pgf@y by 1.2\ht\pgfnodeparttextbox
+    }
+    \savedanchor{\c}{
+      \pgf@x=.5\wd\pgfnodeparttextbox
+      \pgf@y=.5\wd\pgfnodeparttextbox
+      \advance\pgf@y by 1.2\ht\pgfnodeparttextbox
+    }
+
+    \savedanchor{\ane}{
+      \pgf@x=.53\wd\pgfnodeparttextbox
+      \pgf@y=.8\wd\pgfnodeparttextbox
+      \advance\pgf@y by 1.2\ht\pgfnodeparttextbox
+    }
+    \savedanchor{\ase}{
+      \pgf@x=.53\wd\pgfnodeparttextbox
+      \pgf@y=.5\wd\pgfnodeparttextbox
+      \advance\pgf@y by 1.2\ht\pgfnodeparttextbox
+    }
+    \savedanchor{\anw}{
+      \pgf@x=.47\wd\pgfnodeparttextbox
+      \pgf@y=.5\wd\pgfnodeparttextbox
+      \advance\pgf@y by 1.2\ht\pgfnodeparttextbox
+    }
+    \savedanchor{\asw}{
+      \pgf@x=.47\wd\pgfnodeparttextbox
+      \pgf@y=.2\wd\pgfnodeparttextbox
+      \advance\pgf@y by 1.2\ht\pgfnodeparttextbox
+    }
+
+    \anchor{center}{\c}
+    \anchor{north}{
+      \pgfpointadd{\nw}{\pgfpointscale{.5}{\pgfpointdiff{\nw}{\ne}}}
+    }
+    \anchor{west}{\pgfpointadd{\nw}{\pgfpointscale{.5}{\pgfpointdiff{\nw}{\sw}}}
+    }
+    \anchor{east}{
+      \pgfpointadd{\ne}{\pgfpointscale{.5}{\pgfpointdiff{\ne}{\se}}}
+    }
+    \anchor{south}{ % beneath text
+      \pgfpointadd{\sw}{\pgfpointscale{.5}{\pgfpointdiff{\sw}{\se}}}
+    }
+    \anchor{north east}{\ne}
+    \anchor{north west}{\nw}
+    \anchor{south east}{\se}
+    \anchor{south west}{\sw}
+
+    \backgroundpath{
+      % make circle
+      \pgfpathcircle{\c}{.53\wd\pgfnodeparttextbox}
+      \pgfusepath{draw}
+      % todo: curved arrows
+      % upper right arrow
+      \pgfpathmoveto{\pgfpointadd{\ane}{\pgfpoint{0cm}{0cm}}} %\pgfpointscale{.2}{\pgfpointdiff{\c}{\ne}}}}
+      \pgfpathlineto{\pgfpointadd{\ane}{\pgfpoint{.32\wd\pgfnodeparttextbox}{0cm}}}
+      \pgfpathlineto{\pgfpointadd{\ane}{\pgfpoint{.32\wd\pgfnodeparttextbox}{.03\wd\pgfnodeparttextbox}}}
+      \pgfpathlineto{\pgfpointadd{\ane}{\pgfpoint{.37\wd\pgfnodeparttextbox}{-.05\wd\pgfnodeparttextbox}}} %tip
+      \pgfpathlineto{\pgfpointadd{\ane}{\pgfpoint{.32\wd\pgfnodeparttextbox}{-.13\wd\pgfnodeparttextbox}}}
+      \pgfpathlineto{\pgfpointadd{\ane}{\pgfpoint{.32\wd\pgfnodeparttextbox}{-.1\wd\pgfnodeparttextbox}}}
+      \pgfpathlineto{\pgfpointadd{\ane}{\pgfpoint{0cm}{-.1\wd\pgfnodeparttextbox}}}
+      \pgfpathclose
+      % se arrow
+      \pgfpathmoveto{\pgfpointadd{\ase}{\pgfpoint{0cm}{0cm}}} %\pgfpointscale{.2}{\pgfpointdiff{\c}{\ne}}}}
+      \pgfpathlineto{\pgfpointadd{\ase}{\pgfpoint{.32\wd\pgfnodeparttextbox}{0cm}}}
+      \pgfpathlineto{\pgfpointadd{\ase}{\pgfpoint{.32\wd\pgfnodeparttextbox}{.03\wd\pgfnodeparttextbox}}}
+      \pgfpathlineto{\pgfpointadd{\ase}{\pgfpoint{.37\wd\pgfnodeparttextbox}{-.05\wd\pgfnodeparttextbox}}} %tip
+      \pgfpathlineto{\pgfpointadd{\ase}{\pgfpoint{.32\wd\pgfnodeparttextbox}{-.13\wd\pgfnodeparttextbox}}}
+      \pgfpathlineto{\pgfpointadd{\ase}{\pgfpoint{.32\wd\pgfnodeparttextbox}{-.1\wd\pgfnodeparttextbox}}}
+      \pgfpathlineto{\pgfpointadd{\ase}{\pgfpoint{0cm}{-.1\wd\pgfnodeparttextbox}}}
+      \pgfpathclose
+%      \pgfpathmoveto{}
+      
+      % upper left arrow
+      \pgfpathmoveto{\pgfpointadd{\anw}{\pgfpointscale{-1}{\pgfpoint{0cm}{0cm}}}} %\pgfpointscale{.2}{\pgfpointdiff{\c}{\ne}}}}
+      \pgfpathlineto{\pgfpointadd{\anw}{\pgfpointscale{-1}{\pgfpoint{.32\wd\pgfnodeparttextbox}{0cm}}}}
+      \pgfpathlineto{\pgfpointadd{\anw}{\pgfpointscale{-1}{\pgfpoint{.32\wd\pgfnodeparttextbox}{.03\wd\pgfnodeparttextbox}}}}
+      \pgfpathlineto{\pgfpointadd{\anw}{\pgfpointscale{-1}{\pgfpoint{.37\wd\pgfnodeparttextbox}{-.05\wd\pgfnodeparttextbox}}}} %tip
+      \pgfpathlineto{\pgfpointadd{\anw}{\pgfpointscale{-1}{\pgfpoint{.32\wd\pgfnodeparttextbox}{-.13\wd\pgfnodeparttextbox}}}}
+      \pgfpathlineto{\pgfpointadd{\anw}{\pgfpointscale{-1}{\pgfpoint{.32\wd\pgfnodeparttextbox}{-.1\wd\pgfnodeparttextbox}}}}
+      \pgfpathlineto{\pgfpointadd{\anw}{\pgfpointscale{-1}{\pgfpoint{0cm}{-.1\wd\pgfnodeparttextbox}}}}
+      \pgfpathclose
+      % upper left arrow
+      \pgfpathmoveto{\pgfpointadd{\asw}{\pgfpointscale{-1}{\pgfpoint{0cm}{0cm}}}} %\pgfpointscale{.2}{\pgfpointdiff{\c}{\ne}}}}
+      \pgfpathlineto{\pgfpointadd{\asw}{\pgfpointscale{-1}{\pgfpoint{.32\wd\pgfnodeparttextbox}{0cm}}}}
+      \pgfpathlineto{\pgfpointadd{\asw}{\pgfpointscale{-1}{\pgfpoint{.32\wd\pgfnodeparttextbox}{.03\wd\pgfnodeparttextbox}}}}
+      \pgfpathlineto{\pgfpointadd{\asw}{\pgfpointscale{-1}{\pgfpoint{.37\wd\pgfnodeparttextbox}{-.05\wd\pgfnodeparttextbox}}}} %tip
+      \pgfpathlineto{\pgfpointadd{\asw}{\pgfpointscale{-1}{\pgfpoint{.32\wd\pgfnodeparttextbox}{-.13\wd\pgfnodeparttextbox}}}}
+      \pgfpathlineto{\pgfpointadd{\asw}{\pgfpointscale{-1}{\pgfpoint{.32\wd\pgfnodeparttextbox}{-.1\wd\pgfnodeparttextbox}}}}
+      \pgfpathlineto{\pgfpointadd{\asw}{\pgfpointscale{-1}{\pgfpoint{0cm}{-.1\wd\pgfnodeparttextbox}}}}
+      \pgfpathclose
+    }
+
+}
+\makeatother
+
+\makeatletter
+\pgfdeclareshape{firewall}{
+
+}
+\makeatother
+
+\makeatletter
+\pgfdeclareshape{server}{
+
+}
+\makeatother
+
+\makeatletter
+\pgfdeclareshape{host}{
+
+}
+\makeatother
+
+
+\makeatletter
+\pgfdeclareshape{letter}{
+    \inheritsavedanchors[from=rectangle] % this is nearly a rectangle
+    \inheritanchor[from=rectangle]{center}
+    \inheritanchor[from=rectangle]{north}
+    \inheritanchor[from=rectangle]{south}
+    \inheritanchor[from=rectangle]{west}
+    \inheritanchor[from=rectangle]{east}
+    \savedanchor{\upright}{
+      \pgf@x=1.2\wd\pgfnodeparttextbox
+      \pgf@y=\ht\pgfnodeparttextbox
+    }
+    \savedanchor{\upleft}{
+      \pgf@x=-.2\wd\pgfnodeparttextbox
+      \pgf@y=\ht\pgfnodeparttextbox
+    }
+    \savedanchor{\downright}{
+      \pgf@x=1.2\wd\pgfnodeparttextbox
+      \pgf@y=0cm
+    }
+    \savedanchor{\downleft}{
+      \pgf@x=-.2\wd\pgfnodeparttextbox
+      \pgf@y=0cm
+    }
+    \savedanchor{\flapleft}{
+      \pgf@x=.45\wd\pgfnodeparttextbox
+      \pgf@y=.5\ht\pgfnodeparttextbox
+    }
+    \savedanchor{\flapright}{
+      \pgf@x=.55\wd\pgfnodeparttextbox
+      \pgf@y=.5\ht\pgfnodeparttextbox
+    }
+    \backgroundpath{
+      \pgfpathmoveto{\upleft}
+      \pgfpathlineto{\upright}
+      \pgfpathlineto{\downright}
+      \pgfpathlineto{\downleft}
+      \pgfpathclose
+      \pgfpathmoveto{\upleft}
+      \pgfpathlineto{\flapleft}
+      \pgfpathmoveto{\downleft}
+      \pgfpathlineto{\flapleft}
+      \pgfpathmoveto{\upright}
+      \pgfpathlineto{\flapright}
+      \pgfpatharc{\pgfmathadd{300}{15}}{225}{.08\wd\pgfnodeparttextbox}
+      \pgfpathmoveto{\downright}
+      \pgfpathlineto{\flapright}
+
+    }
+}
+\makeatother
+
+% A stickfigure Node
+\makeatletter
+\pgfdeclareshape{stickfig}{
+  \inheritsavedanchors[from=rectangle] % this is nearly a rectangle
+  \inheritanchor[from=rectangle]{center}
+  \inheritanchor[from=rectangle]{north}
+  \inheritanchor[from=rectangle]{south}
+  \inheritanchor[from=rectangle]{west}
+  \inheritanchor[from=rectangle]{east}
+  \savedanchor{\bodytop}{
+    \pgf@x=.5\wd\pgfnodeparttextbox
+    \pgf@y=-.5\ht\pgfnodeparttextbox
+  }
+  \savedanchor{\shoulder}{
+    \pgf@x=.5\wd\pgfnodeparttextbox
+    \pgf@y=-.9\ht\pgfnodeparttextbox
+  }
+  \savedanchor{\bodybot}{
+    \pgf@x=.5\wd\pgfnodeparttextbox
+    \pgf@y=-3\ht\pgfnodeparttextbox
+  }
+  \savedanchor{\lfoot}{
+    \pgf@x=-.5\wd\pgfnodeparttextbox
+    \pgf@y=-6\ht\pgfnodeparttextbox
+  }
+  \savedanchor{\rfoot}{
+    \pgf@x=1.5\wd\pgfnodeparttextbox
+    \pgf@y=-6\ht\pgfnodeparttextbox
+  }
+  \savedanchor{\lhand}{
+    \pgf@x=-1\wd\pgfnodeparttextbox
+    \pgf@y=-2\ht\pgfnodeparttextbox
+  }
+  \savedanchor{\rhand}{
+    \pgf@x=2\wd\pgfnodeparttextbox
+    \pgf@y=-2\ht\pgfnodeparttextbox
+  }
+  \anchor{shoulder}{\shoulder}
+  \anchor{rhand}{\rhand}
+  \anchor{lhand}{\lhand}
+  \anchor{rfoot}{\rfoot}
+  \anchor{lfoot}{\lfoot}
+  \anchor{bottom}{ % middle between feet
+    \pgfpointlineattime{.5}{\lfoot}{\rfoot}}
+  % \anchor{\center}{
+  %   \pgf@x=.5\wd\pgfnodeparttextbox
+  %   \pgf@y=-6\ht\pgfnodeparttextbox
+  % }    
+  \backgroundpath{%
+    \pgfpathmoveto{\bodytop}
+    \pgfpathlineto{\shoulder}
+    \pgfpathlineto{\bodybot}
+    % \pgfpathclose
+    \pgfpathmoveto{\lfoot}
+    \pgfpathlineto{\bodybot}
+    \pgfpathlineto{\rfoot}
+    % \pgfpathclose
+    \pgfpathmoveto{\lhand}
+    \pgfpathlineto{\shoulder}
+    \pgfpathlineto{\rhand}
+    \pgfpathellipse{\pgfpoint{.5\wd\pgfnodeparttextbox}{.5\ht\pgfnodeparttextbox}}{\pgfpoint{0cm}{\ht\pgfnodeparttextbox}}{\pgfpoint{\wd\pgfnodeparttextbox}{0cm}}
+  }
+}
+\makeatother
+
+\makeatletter
+\pgfdeclareshape{sender}{
+  \savedanchor\centerpoint{%
+    \pgf@x=.5\wd\pgfnodeparttextbox%
+    \pgf@y=.5\ht\pgfnodeparttextbox%
+    \advance\pgf@y by -.5\dp\pgfnodeparttextbox%
+  }
+  \savedanchor\top{%
+    \pgf@x=.5\wd\pgfnodeparttextbox%
+    \pgf@y=\ht\pgfnodeparttextbox%
+  }
+  \savedanchor\left{%
+    \pgf@x=\pgfnodeparttextbox%
+    \pgf@y=\pgfnodeparttextbox%
+  }
+  \savedanchor\right{%
+    \pgf@x=1.0\wd\pgfnodeparttextbox%
+    \pgf@y=\pgfnodeparttextbox%
+  }
+  
+  \anchor{center}{\centerpoint}
+  \anchorborder{\centerpoint}
+  \backgroundpath{
+    \pgfpathrectanglecorners
+    {\upperrightcorner}
+    {\pgfpointscale{-1}{\upperrightcorner}}
+    \pgfpathmoveto{\left}
+      \pgfpathlineto{\top}
+      \pgfpathlineto{\right}
+    \pgfusepath{stroke}
+  }
+}
+\makeatother
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "dissmain"
+%%% End: 

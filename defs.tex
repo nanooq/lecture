@@ -1,0 +1,197 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Datei für Definitionen und Commandos um Begriffe        %
+% zu Vereinheitlichen                                     %
+%                                                         %
+% $Id: defs.tex,v 1.15 2003/04/15 14:25:23 tiga Exp $
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{enumerate}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{url}
+%\usepackage{theorem}
+%\usepackage{ulsy} % f. \blitza,...
+
+% Theorem  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%   \theoremstyle{break}
+%    \newtheorem{Def}{Definition}
+%    \newtheorem{Con}{Vermutung}
+%    \newtheorem{Lem}{Lemma}
+%    \newtheorem{Theorem}{Satz}
+%   \newtheorem{Proof}{Beweis}
+
+% \theorembodyfont{\itshape}
+% \theoremheaderfont{\scshape}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\cfbox}[2]{%
+    \colorlet{currentcolor}{.}%
+    {\color{#1}%
+    \fbox{\color{currentcolor}#2}}%
+}
+
+% allgemein
+%\newcommand{\FIXME}[1]{{\bf\color{red}{FIXME:} #1}}
+\newcommand{\NOTE}[1]{\qquad{\bf \large $\bullet$NOTE: }\texttt{#1}}
+\newcommand{\code}[1]{\verb+#1+}
+\newcommand{\marginlabel}[1] {\mbox{}\marginpar{\raggedleft\hspace{0pt}#1}}
+
+%dummy-picture
+\newcommand{\dummypict}{\center{\framebox[7cm][c]{\bf {\large FIXME:} Dies ist ein Dummy\vspace{5cm}}}}
+
+
+
+%some abbrevs
+\newcommand{\wrt}[0]{{w.\,r.\,t.} }
+\newcommand{\eg}[0]{{e.\,g.,} }
+\newcommand{\etal}[0]{{~et~al.} }
+\newcommand{\ie}[0]{{i.\,e.,} }
+
+
+
+\newcommand{\doublesignature}[3]{%
+  \parbox{\textwidth}{
+    %\centering 
+    #3, \today\\[2cm]
+    \parbox{7cm}{
+      \centering
+      \rule{6cm}{1pt}\\
+       #1 
+    }%
+    \hfill%
+    \parbox{7cm}{
+      \centering
+      \rule{6cm}{1pt}\\
+      #2
+    }
+  }
+}
+
+
+% Roman Numbers
+\makeatletter
+\newcommand{\rmnum}[1]{\romannumeral #1}
+\newcommand{\Rmnum}[1]{\expandafter\@slowromancap\romannumeral #1@}
+\makeatother
+
+%protokollbeschreibungen
+\newcommand{\protocolbrief}[4]{
+\begin{center}
+        \cornersize*{10pt}
+        \Ovalbox{
+          \parbox{9.95cm}{\hspace{-3mm}
+            \begin{tabular}{l|l}
+              \multicolumn{2}{p{10cm}}{\textsf{\large \bf {#1}}}\\\hline
+              \textsf{\large{#2}}& \\\hline
+              \multicolumn{2}{p{10cm}}{\textsf{\large{#3}}}\\\hline
+              \multicolumn{2}{p{10cm}}{\textsf{\large{#4}}}
+            \end{tabular}
+          }
+        }
+\end{center}
+\vspace{\baselineskip}
+}
+
+% method description
+\newcommand{\method}[2]{
+  \vspace{3mm}
+  \begin{quotation}
+    \noindent{\bf Method: #1}\vspace{2mm}
+    
+    #2
+  \end{quotation}
+}
+
+% attack description
+\newcommand{\attack}[2]{
+  \vspace{3mm}
+  \begin{quotation}
+    \noindent{\bf Attack: #1}\vspace{2mm}
+    
+    #2
+  \end{quotation}
+}
+
+
+% MATHEMATIC SYMBOLS
+%% modular encapsulation of mathematical symbols to make
+%% later changes as easy as possible 
+%% (! Some parts of the document might be older than this functions !)
+%%
+%  \hashf   => \mathcal{H}
+\newcommand{\hashf}{\ensuremath{\mH}}
+%  \hash{r} => \hashf(r)
+%\newcommand{\hash}[1]{\ensuremath{\hashf(#1)}}
+%  \signf{n} => S^{-1}_{n}
+\newcommand{\signf}[1]{\ensuremath{S^{-1}_{#1}}}
+%  \sign{n}{m} => \signf{n}(m)
+\newcommand{\sign}[2]{\ensuremath{\signf{#1}(#2)}}
+%  \msign{n}{m} => \{m\}_{\signf{n}}
+\newcommand{\msign}[2]{\ensuremath{\{#2\}_{\signf{#1}}}}
+%  \cryptf{n} => K_{n}
+\newcommand{\crypf}[1]{\ensuremath{K_{#1}}}
+%  \dcryptf{n} =>
+\newcommand{\dcrypf}[1]{\ensuremath{\crypf{#1}^{-1}}}
+%  \crypt{n}{m} => \{m\}_{\crypf{n}}
+\newcommand{\crypt}[2]{\ensuremath{\{#2\}_{\crypf{#1}}}}
+%  \dcrypt{n}{m} => \{m\}_{\dcrypf{n}}
+\newcommand{\dcrypt}[2]{\ensuremath{\{#2\}_{\dcrypf{#1}}}}
+
+
+\newcommand{\eqbydef}[0]{\ensuremath{\mathop{=}\limits^{\textit{def.}}}}
+
+%  \mP => \mathcal{P} (and others)
+\newcommand{\mA}{\ensuremath{\mathcal{A}}}
+\newcommand{\mB}{\ensuremath{\mathcal{B}}}
+\newcommand{\mC}{\ensuremath{\mathcal{C}}}
+\newcommand{\mD}{\ensuremath{\mathcal{D}}}
+\newcommand{\mE}{\ensuremath{\mathcal{E}}}
+\newcommand{\mF}{\ensuremath{\mathcal{F}}}
+\newcommand{\mG}{\ensuremath{\mathcal{G}}}
+\newcommand{\mH}{\ensuremath{\mathcal{H}}}
+\newcommand{\mI}{\ensuremath{\mathcal{I}}}
+\newcommand{\mK}{\ensuremath{\mathcal{K}}}
+\newcommand{\mM}{\ensuremath{\mathcal{M}}}
+\newcommand{\mN}{\ensuremath{\mathcal{N}}}
+\newcommand{\mP}{\ensuremath{\mathcal{P}}}
+\newcommand{\mQ}{\ensuremath{\mathcal{Q}}}
+\newcommand{\mR}{\ensuremath{\mathcal{R}}}
+\newcommand{\mS}{\ensuremath{\mathcal{S}}}
+\newcommand{\mT}{\ensuremath{\mathcal{T}}}
+\newcommand{\mU}{\ensuremath{\mathcal{U}}}
+\newcommand{\mV}{\ensuremath{\mathcal{V}}}
+\newcommand{\mX}{\ensuremath{\mathcal{X}}}
+\newcommand{\mY}{\ensuremath{\mathcal{Y}}}
+
+
+\newcommand{\E}{\ensuremath{\mathbb{E}}}
+\newcommand{\F}{\ensuremath{\mathbb{F}}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+
+\newcommand{\gD}{\ensuremath{\mathfrak{D}}}
+\newcommand{\gG}{\ensuremath{\mathfrak{G}}}
+\newcommand{\gT}{\ensuremath{\mathfrak{T}}}
+
+% other functions
+\newcommand{\id}[1]{\ensuremath{\mathop{id}({#1})}}
+
+
+%\newcommand{\qed}[0]{\hfill\ensuremath{\Box}}
+
+%  \newcommand{\qed}{\nobreak \ifvmode \relax \else
+%        \ifdim\lastskip<1.5em \hskip-\lastskip
+%        \hskip1.5em plus0em minus0.5em \fi \nobreak
+%        \vrule height0.75em width0.5em depth0.25em\fi}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End: 
