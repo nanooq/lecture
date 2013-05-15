@@ -1,0 +1,80 @@
+% if xelatex
+%\usepackage{xunicode} 
+\usepackage{xltxtra}
+%\usepackage{fontspec}
+
+%\usepackage[T1]{fontenc}
+
+\usepackage[citestyle=authoryear-icomp,doi=true,url=true]{biblatex}
+%\usepackage{biblatex}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{blindtext}
+\usepackage{enumerate}
+\usepackage{listings_styles}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{pgf-umlsd}
+\usepackage{rotating}
+%\usetikzlibrary{mindmap}
+%\usetikzlibrary{positioning}
+\usetikzlibrary{fit}
+\usetikzlibrary{trees}
+\usepgflibrary{shapes}
+\usepgflibrary{snakes}
+\usepgflibrary{arrows}
+\usetikzlibrary{shadows,shapes,arrows,snakes,backgrounds}
+\usetikzlibrary{calc,3d}
+%\usepgflibrary{decorations.pathmorphing}
+%\usetikzlibrary{decorations.pathmorphing}
+
+\usepackage{graphicx}
+%\usepackage{xcolor}
+\usepackage{url}
+
+
+\usepackage{bytefield}
+\usepackage{multirow}
+
+
+% previously only in slides
+\usepackage{fancybox}
+%\usepackage{german}
+\usepackage{ifthen}
+\usepackage{pgfbaseimage}
+
+%previously only in notes
+\usepackage{algorithmic}
+\usepackage[american]{babel}
+\usepackage{amsfonts}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%% Commands %%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\Checkmark}[0]{\ding{52}}
+\newcommand{\cmd}[1]{\texttt{#1}}
+
+%\newcommand\M{{\mathbb{M}}}
+%\newcommand\Z{{\mathbb{Z}}}
+\newcommand{\hl}{\hat{l}}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+
+%%%%%%%%%%%%%%%%% Environments %%%%%%%%%%%%%%%%%%
+
+\newcounter{Practisecount}
+\setcounter{Practisecount}{0}
+\newenvironment{practise}[1][\unskip]
+{% This is the begin code
+\stepcounter{Practisecount} \mbox{{\bf Practise
+  \arabic{Practisecount} #1}}\\
+% make minipage?
+}
+{% This is the end code
+ }
