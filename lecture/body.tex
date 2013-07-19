@@ -1,0 +1,137 @@
+\mode<presentation>{
+\title{!!!ITLE!!!}
+
+\author[Lars Fischer]{Lars Fischer}
+
+
+
+\date{Summer Term 2013\\Universität Siegen}
+}
+
+
+\addbibresource{bibliography.bib}
+\graphicspath{{img/}{../img/}{../../../share/img/}}
+
+\usepackage{pdfpages}
+\usepackage{tikz}
+
+%\graphicspath{{img/}{~/share/img/}{~/share/latex}}
+
+%\input{tikzdefs}
+\tikzstyle{mb}=[shape=circle, draw=black, thick, minimum size=2mm]
+\tikzstyle{ioi}=[rectangle, solid, draw=black, fill=black!20, minimum size=2mm]
+\tikzstyle{object}=[shape=rectangle, solid, draw=black, minimum size=6mm]
+
+\tikzstyle{mob} = [circle, fill=blue!60, draw=black, thick, inner sep=0, minimum size=.2cm]
+\tikzstyle{sob} = [regular polygon, regular polygon sides=3, fill=yellow!800!red, draw=black, inner sep=0, minimum size=.2cm]
+
+\tikzstyle{vecArrow} = [thick, decoration={markings,mark=at position
+   1 with {\arrow[semithick]{open triangle 60}}},
+   double distance=1.4pt, shorten >= 5.5pt,
+   preaction = {decorate},
+   postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
+\tikzstyle{innerWhite} = [semithick, white,line width=1.4pt, shorten >= 4.5pt]
+
+\pgfdeclaredecoration{penciline}{initial}{
+    \state{initial}[width=+\pgfdecoratedinputsegmentremainingdistance,
+    auto corner on length=1mm,]{
+        \pgfpathcurveto%
+        {% From
+            \pgfqpoint{\pgfdecoratedinputsegmentremainingdistance}
+                      {\pgfdecorationsegmentamplitude}
+        }
+        {%  Control 1
+        \pgfmathrand
+        \pgfpointadd{\pgfqpoint{\pgfdecoratedinputsegmentremainingdistance}{0pt}}
+                    {\pgfqpoint{-\pgfdecorationsegmentaspect
+                     \pgfdecoratedinputsegmentremainingdistance}%
+                               {\pgfmathresult\pgfdecorationsegmentamplitude}
+                    }
+        }
+        {%TO 
+        \pgfpointadd{\pgfpointdecoratedinputsegmentlast}{\pgfpoint{1pt}{1pt}}
+        }
+    }
+    \state{final}{}
+}
+
+%\pgfdeclareimage[width=.8cm]{adversary}{../img/devil.jpeg}
+
+\usetikzlibrary{chains}
+\usetikzlibrary{calc}
+\usetikzlibrary{matrix}
+
+
+
+\begin{document}
+%\mode<presentation>{\maketitle} %maketitle destroys upper navgation
+\mode<presentation>{\frame[plain]{\titlepage
+}}
+
+\mode<article>{%
+  \setbeamertemplate{frametitle}{}
+  \frontmatter
+  \thispagestyle{empty}
+  \input{title}
+  
+  % (09:27:48) jens: wenn du das Minitoc zeug nutzen willst, dann brauchst du vermutlich noch :
+% (09:27:50) jens: \mtcaddchapter %increase minitocs internal counter
+% to get the right minitocs in the later chapters
+% (09:27:59) jens: im preface
+% (09:28:44) jens: alles was \chapter* ist macht die mtc counter
+% kaputt und dann landen deine minitocs in den falschen Kapiteln
+
+  \input{preface.tex}
+  \tableofcontents
+  \mainmatter
+}
+
+% how to reduce compilation time for slides.
+%\includeonlylecture{distrauth}
+
+\mode<all>
+\input{introduction}
+
+%here be all the other inputs...
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section*{Literature}
+\label{sec:literatur}
+
+\mode<article>{
+%\bibliographystyle{alpha}
+%\bibliography{bibliography}
+\printbibliography
+}
+
+
+\mode<presentation>{
+\begin{frame}[b]{\ }
+%{\large All good things must come to an end. }
+
+\hfill\parbox{.45\linewidth}{Lars~Fischer\\[3mm]
+\url{fischer@wiwi.uni-siegen.de}\\
+{\small IT-Sicherheitsmanagement\\ 
+  Universität~Siegen}\\[2mm]
+\texttt{\small 030F 3F95 3D34 912F 3D7A\\  A51E D9FA 5744 E228 BBA0}}\\
+
+
+  \vfill\hfill{\large }
+
+\end{frame}
+}
+
+\mode<article>{\backmatter}
+\end{document}
+
+% some help for emacs tex user
+%%% Local Variables: 
+%%% TeX-PDF-mode:t
+%%% auto-fill-function:nil
+%%% mode:auto-fill
+%%% flyspell-mode:nil
+%%% mode:flyspell
+%%% ispell-local-dictionary: english
+%%% End: 
