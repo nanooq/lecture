@@ -5,15 +5,23 @@ TEXDEP=${FILES:.tex=.dep}
 PDF=${FILES:.tex=.pdf}
 XDEPS=$(wildcard ${TEXDEP})
 SHELL=/bin/bash
+TITLE=!!!TITLE!!!
+SEMESTER=!!!TERM!!!
+
 
 .PHONY: clean all depend cleanall help update
 
 
 all: ${TEXDEP} $(PDF)
 
+publish: $(TITLE)_Lecture_Notes_$(SEMESTER).pdf $(TITLE)_Lecture_Slides_$(SEMESTER).pdf
+# if any publishing script exists...
+
 notes: Lecture_Notes.pdf
+	cp $< "$(TITLE)-Book-${SEMESTER}.pdf"
 
 slides: Lecture_Slides.pdf
+	cp $< "$(TITLE)-Slides-${SEMESTER}.pdf"
 
 ifneq (${XDEPS},) 
     include ${XDEPS} 

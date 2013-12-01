@@ -19,7 +19,44 @@
 \tikzstyle{sample}=[shape=circle,draw, fill=black,minimum size=5pt, inner sep=0pt]
 \tikzstyle{track}=[thick, ->]
 \tikzstyle{map}=[thick, ->]
+
 \tikzstyle{bracedeco}=[decorate, decoration=brace,very thick] %amplitude
+
+\tikzstyle{mb}=[shape=circle, draw=black, thick, minimum size=2mm]
+\tikzstyle{object}=[shape=rectangle, solid, draw=black, minimum size=6mm]
+
+\tikzstyle{mob} = [circle, fill=blue!60, draw=black, thick, inner sep=0, minimum size=.2cm]
+\tikzstyle{sob} = [regular polygon, regular polygon sides=3, fill=yellow!800!red, draw=black, inner sep=0, minimum size=.2cm]
+
+\tikzstyle{vecArrow} = [thick, decoration={markings,mark=at position
+   1 with {\arrow[semithick]{open triangle 60}}},
+   double distance=1.4pt, shorten >= 5.5pt,
+   preaction = {decorate},
+   postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
+\tikzstyle{innerWhite} = [semithick, white,line width=1.4pt, shorten >= 4.5pt]
+
+\pgfdeclaredecoration{penciline}{initial}{
+    \state{initial}[width=+\pgfdecoratedinputsegmentremainingdistance,
+    auto corner on length=1mm,]{
+        \pgfpathcurveto%
+        {% From
+            \pgfqpoint{\pgfdecoratedinputsegmentremainingdistance}
+                      {\pgfdecorationsegmentamplitude}
+        }
+        {%  Control 1
+        \pgfmathrand
+        \pgfpointadd{\pgfqpoint{\pgfdecoratedinputsegmentremainingdistance}{0pt}}
+                    {\pgfqpoint{-\pgfdecorationsegmentaspect
+                     \pgfdecoratedinputsegmentremainingdistance}%
+                               {\pgfmathresult\pgfdecorationsegmentamplitude}
+                    }
+        }
+        {%TO 
+        \pgfpointadd{\pgfpointdecoratedinputsegmentlast}{\pgfpoint{1pt}{1pt}}
+        }
+    }
+    \state{final}{}
+}
 
 \usepackage{array} % used for extrarowheight
 
