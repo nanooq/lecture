@@ -16,7 +16,7 @@ function depend () {
 		if [ -e "${i}.tex" ]; then
 		    TDEPS="$TDEPS `${0} \"${i}.tex\"`"
 		elif [ -e "${i}.tikz" ]; then
-		    TDEPS="$TDEPS `${0} \"${i}.tex\"`"
+		    TDEPS="$TDEPS `${0} \"${i}.tikz\"`"
 		fi
 	done
 
