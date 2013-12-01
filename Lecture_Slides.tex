@@ -43,6 +43,20 @@
 
 \setlength{\parskip}{2mm}
 
+\makeatletter
+\newenvironment{chapquote}[2][2em]
+{\setlength{\@tempdima}{#1}%
+  \def\chapquote@author{#2}%
+  \frame<presentation>{%
+    \parshape 1 \@tempdima \dimexpr\textwidth-2\@tempdima\relax%
+    \itshape \BODY%
+    \par\normalfont\hfill--\
+    \chapquote@author\hspace*{\@tempdima}\par\bigskip}}
+{}
+ \makeatother
+
+
+
 \AtBeginLecture{
   \frame{%
     \frametitle{Lecture \insertlecturenumber}%

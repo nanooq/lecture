@@ -1,6 +1,5 @@
 \documentclass[a4paper,11pt]{book}
 \usepackage[noxcolor,noamsthm]{beamerarticle}
-\usepackage[hyperref]{xcolor}
 
 \input{default_header}
 \input{defs}
@@ -58,8 +57,6 @@
 
 \dominitoc
 
-
-
 \usepackage{framed}
 \definecolor{shadecolor}{rgb}{.9,.9,.9}
 
@@ -83,6 +80,7 @@
 \newtheorem{amsdefinition}[amstheorem]{Definition}
 \newtheorem{amsexample}[amstheorem]{Example}
 \newtheorem{amscorollary}[amstheorem]{Corollary}
+\newtheorem{amsconjecture}[amstheorem]{Conjecture}
 
 \newenvironment{theorem}
 {\begin{shaded}\begin{amstheorem}}
@@ -102,7 +100,21 @@
 \newenvironment{corollary}
 {\begin{shaded}\begin{amscorollary}}
 {\end{amscorollary}\end{shaded}}
+\newenvironment{conjecture}
+{\begin{shaded}\begin{amsconjecture}}
+{\end{amsconjecture}\end{shaded}}
 
+
+
+\makeatletter
+\renewcommand{\@chapapp}{}% Not necessary...
+\newenvironment{chapquote}[2][2em]
+{\setlength{\@tempdima}{#1}%
+  \def\chapquote@author{#2}%
+  \parshape 1 \@tempdima \dimexpr\textwidth-2\@tempdima\relax%
+  \itshape}
+{\par\normalfont\hfill--\ \chapquote@author\hspace*{\@tempdima}\par\bigskip}
+\makeatother
 
 
 

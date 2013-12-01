@@ -1,6 +1,6 @@
 #!/bin/bash
 # Small tool to create GNU compatible dependencies from a tex document. 
-# It only recognizes the \input statement and no recursive dependencies.
+# It only recognizes the \input statement and recursing for included files.
 #
 #
 #
@@ -12,7 +12,12 @@ function depend () {
 	CDEPS=""
 	for i in `cat "$INPUT" | grep -v ^[[:space:]]*% | grep "\(input{\|include{\)" | sed -e 's,.*{\(.*\)}.*,\1,g'`
 	do
-		TDEPS="$TDEPS $i"	
+		TDEPS="$TDEPS $i"
+		if [ -e "${i}.tex" ]; then
+		    TDEPS="$TDEPS `${0} \"${i}.tex\"`"
+		elif [ -e "${i}.tikz" ]; then
+		    TDEPS="$TDEPS `${0} \"${i}.tex\"`"
+		fi
 	done
 
 	for i in `cat "$INPUT" | grep -v ^[[:space:]]*% | grep "lstinputlisting" | sed -e 's,.*{\([^}]*\)}.*,\1,g' `
