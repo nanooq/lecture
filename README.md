@@ -15,9 +15,7 @@ Furtermore you get some templates thrown in for free.
 
 == License == 
 
-Up until we decide on a license, this is provided — "as is" — for you to
-use as you please. But we kindly ask, to inform us, if you use our work
-and provide us with feedback.
+The License is the MIT License, until further notice.
 
 == Open Topics ==
 
@@ -39,3 +37,4 @@ Institute in Magdeburg and the University of Siegen. Namely:
 * Jens Saak
 * Lars Fischer
 * (the guy whose name I do not recall)
+=======
