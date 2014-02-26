@@ -1,4 +1,4 @@
-Hi,
+OHAI!
 
 this is a template for lectures, making use of latex, beamer, and
 pgf/tikz. It produces lecture notes and lecture slides in roughly one
