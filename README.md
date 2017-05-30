@@ -14,8 +14,8 @@ Furtermore you get some templates thrown in for free.
 
 
 == License == 
-
 The License is the MIT License, until further notice.
+
 
 == Open Topics ==
 
@@ -37,4 +37,7 @@ Institute in Magdeburg and the University of Siegen. Namely:
 * Jens Saak
 * Lars Fischer
 * (the guy whose name I do not recall)
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> Documentation
