@@ -1,0 +1,166 @@
+\RequirePackage{listings}
+\renewcommand{\ttdefault}{pcr}
+
+
+\lstdefinestyle{C}{
+  language={C},
+  basicstyle={\ttfamily\small},
+  keywordstyle={\bfseries},
+  identifierstyle={\bfseries},
+  commentstyle={\itshape},
+  showspaces=false,
+  showtabs=false,
+  showstringspaces=false,
+  breaklines=true, 
+  prebreak={\textbackslash},
+%  postbreak={\ding{213}\phantom{x}},
+  numbers=left, 
+  numberstyle={\tiny},
+  frame=tbrl
+}
+
+\lstdefinestyle{Haskell}{
+  language={Haskell},
+  basicstyle={\ttfamily\small},
+  keywordstyle={\bfseries},
+  identifierstyle={\bfseries},
+  commentstyle={\itshape},
+  showspaces=false,
+  showtabs=false,
+  showstringspaces=false,
+  breaklines=true, 
+  prebreak={\textbackslash},
+%  postbreak={\ding{213}\phantom{x}},
+  numbers=none, 
+  numberstyle={\tiny},
+  frame=
+}
+
+\lstdefinestyle{Assembler}{
+  language={[x86masm]Assembler},
+  basicstyle={\ttfamily\small},
+  keywordstyle={\bfseries},
+  identifierstyle={\bfseries},
+  commentstyle={\itshape},
+  showspaces=false,
+  showtabs=false,
+  showstringspaces=false,
+  breaklines=false, 
+%  prebreak={\textbackslash},
+%  postbreak={\ding{213}\phantom{x}},
+  numbers=left, 
+  numberstyle={\tiny},
+  frame=tblr
+}
+
+\lstdefinestyle{Cshort}{
+  language={C},
+  basicstyle={\ttfamily\small},
+  keywordstyle={\bfseries},
+  identifierstyle={\bfseries},
+  commentstyle={\itshape},
+  backgroundcolor=\color{yellow!20},
+  breaklines=true, 
+%  prebreak={\textbackslash},
+%  postbreak={\ding{213}\phantom{x}},
+  frame=tbrl,
+  escapeinside={@}{@}
+}
+
+\lstdefinestyle{F90}{
+  language={Fortran},
+  basicstyle={\ttfamily\small},
+  keywordstyle={\bfseries},
+  identifierstyle={\bfseries},
+  commentstyle={\itshape},
+  backgroundcolor=\color{red!20},
+  frame=tblr
+}
+\lstdefinestyle{Bash}{
+  language=bash,
+  basicstyle={\ttfamily\bfseries\small},
+  frame=tb,
+  breaklines=true, 
+  prebreak={\textbackslash},
+  postbreak={→\phantom{x}},
+%  columns=fullflexible,
+  backgroundcolor=\color{green!20},
+  mathescape=true
+  %linewidth=0.9\linewidth,
+  %xleftmargin=0.1\linewidth
+}
+
+\lstdefinestyle{MAKE}{
+  language={make},
+  basicstyle={\ttfamily\small},
+  keywordstyle={\bfseries},
+  identifierstyle={\bfseries},
+  commentstyle={\itshape},
+  frame=tblr,
+  tabsize=4,
+  backgroundcolor=\color{blue!20}
+}
+
+\lstdefinestyle{PYTHON}{
+  language={Python},
+  basicstyle={\ttfamily\small},
+  keywordstyle={\bfseries},
+  identifierstyle={\bfseries},
+  commentstyle={\itshape},
+  frame=tblr,
+  tabsize=4,
+  backgroundcolor=\color{orange!20}
+}
+
+\lstdefinestyle{Ruby}{
+  language={Ruby},
+  basicstyle={\ttfamily\small},
+  keywordstyle={\bfseries},
+  identifierstyle={\bfseries},
+  commentstyle={\itshape},
+  frame=tblr,
+  tabsize=4,
+  backgroundcolor=\color{red!20}
+}
+
+\lstdefinestyle{XML}{
+  language={XML},
+    basicstyle={\ttfamily\small},
+  keywordstyle={\bfseries},
+  identifierstyle={\bfseries},
+  commentstyle={\itshape},
+  frame=tblr,
+  tabsize=4,
+  backgroundcolor=\color{gray!10}
+}
+
+\lstdefinestyle{SQL}{
+  language={SQL},
+    basicstyle={\ttfamily\small},
+  keywordstyle={\bfseries},
+  identifierstyle={\bfseries},
+  commentstyle={\itshape},
+  frame=tblr,
+  tabsize=4,
+  backgroundcolor=\color{green!10}
+}
+
+
+\lstdefinestyle{verbcode}{
+  basicstyle={\ttfamily\small},
+  frame=tblr,
+  tabsize=4,
+  backgroundcolor=\color{blue!40!red!40}
+}
+
+\lstnewenvironment{shellcmd}{\lstset{style=Bash}}{}
+\lstnewenvironment{pycode}{\lstset{style=PYTHON}}{}
+\lstnewenvironment{ccode}{\lstset{style=Cshort}}{}
+\lstnewenvironment{rbcode}{\lstset{style=Ruby}}{}
+\lstnewenvironment{haskell}{\lstset{style=Haskell}}{}
+\lstnewenvironment{make}{\lstset{style=MAKE}}{}
+\lstnewenvironment{asmcode}{\lstset{style=Assembler}}{}
+\lstnewenvironment{xml}{\lstset{style=XML}}{}
+\lstnewenvironment{verbcode}{\lstset{style=verbcode}}{}
+\lstnewenvironment{sql}{\lstset{style=SQL}}{}
+\lstset{belowskip=-\parskip}
