@@ -3,8 +3,6 @@
 \input{defs}
 
 
-% local colours
-\usepackage{usicolours}
 
 
 % beamertheme with options
@@ -65,6 +63,11 @@
     \end{center}
   }
 }
+
+\AtBeginSection{
+   \frame[b]{\sectionpage}
+}
+
 
 \input{body}
 
