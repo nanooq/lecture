@@ -11,6 +11,8 @@ SEMESTER=!!!TERM!!!
 
 .PHONY: clean all depend cleanall help update
 
+# TODO: apply makeindex if needed
+
 
 all: ${TEXDEP} $(PDF)
 

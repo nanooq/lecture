@@ -5,7 +5,7 @@
 
 %\usepackage[T1]{fontenc}
 
-\usepackage[citestyle=authoryear-icomp,doi=true,url=true]{biblatex}
+\usepackage[backend=biber,citestyle=numeric,doi=true,url=true]{biblatex}
 %\usepackage{biblatex}
 
 \usepackage{amsmath}
@@ -15,8 +15,10 @@
 \usepackage{enumerate}
 \usepackage{listings_styles}
 \usepackage{verbatim}
-\usepackage{caption}
-\usepackage{subcaption}
+
+% enable subfigures 
+%\usepackage{caption}
+%\usepackage{subcaption}
 
 
 \usepackage{tikz}
@@ -47,15 +49,14 @@
 
 % previously only in slides
 \usepackage{fancybox}
-%\usepackage{german}
 \usepackage{ifthen}
 \usepackage{pgfbaseimage}
 
 %previously only in notes
 \usepackage{algorithmic}
-\usepackage[american]{babel}
 \usepackage{amsfonts}
 
+%\usepackage[german,english,american]{babel}
 
 
 
@@ -83,3 +84,14 @@
 }
 {% This is the end code
  }
+
+
+\newcommand{\atbeginlecture}[2]{%
+\mode*
+\mode<article>{
+  \chapter{#1}
+  \label{cha:#2}
+}
+\mode<presentation>{\lecture{#1}{#2}
+\part{#1}}
+}

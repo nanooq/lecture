@@ -9,21 +9,32 @@
 \usetikzlibrary{decorations.pathmorphing}
 \usetikzlibrary{trees} 
 
-\tikzstyle{subject}=[shape=circle, draw=black, minimum size=6mm]
-\tikzstyle{object}=[shape=rectangle, draw=black, minimum size=6mm]
 
+% no arrow arrow
+% use as :-
+\pgfarrowsdeclare{:}{:}{}{}
+
+% Semantic Concepts
+\tikzstyle{subject}=[shape=circle, draw=black, minimum size=6mm]
+\tikzstyle{object}=[shape=rectangle, solid, draw=black, minimum size=6mm]
+
+
+% Item of interest
 \tikzstyle{ioi}=[rectangle, draw=black, fill=black!20, minimum size=2mm]
 
+% Communication Event
 \tikzstyle{event}=[rectangle, draw=black, fill=black!0, minimum size=2mm]
 
+% Geo-Points
 \tikzstyle{sample}=[shape=circle,draw, fill=black,minimum size=5pt, inner sep=0pt]
 \tikzstyle{track}=[thick, ->]
 \tikzstyle{map}=[thick, ->]
 
-\tikzstyle{bracedeco}=[decorate, decoration=brace,very thick] %amplitude
+% Amplitude
+\tikzstyle{bracedeco}=[decorate, decoration=brace,very thick] 
 
 \tikzstyle{mb}=[shape=circle, draw=black, thick, minimum size=2mm]
-\tikzstyle{object}=[shape=rectangle, solid, draw=black, minimum size=6mm]
+
 
 \tikzstyle{mob} = [circle, fill=blue!60, draw=black, thick, inner sep=0, minimum size=.2cm]
 \tikzstyle{sob} = [regular polygon, regular polygon sides=3, fill=yellow!800!red, draw=black, inner sep=0, minimum size=.2cm]
@@ -339,23 +350,23 @@
 }
 \makeatother
 
-\makeatletter
-\pgfdeclareshape{firewall}{
+% \makeatletter
+% \pgfdeclareshape{firewall}{
 
-}
-\makeatother
+% }
+% \makeatother
 
-\makeatletter
-\pgfdeclareshape{server}{
+% \makeatletter
+% \pgfdeclareshape{server}{
 
-}
-\makeatother
+% }
+% \makeatother
 
-\makeatletter
-\pgfdeclareshape{host}{
+% \makeatletter
+% \pgfdeclareshape{host}{
 
-}
-\makeatother
+% }
+% \makeatother
 
 
 \makeatletter
@@ -419,6 +430,7 @@
   \inheritanchor[from=rectangle]{south}
   \inheritanchor[from=rectangle]{west}
   \inheritanchor[from=rectangle]{east}
+  \inheritanchorborder[from=rectangle]
   \savedanchor{\bodytop}{
     \pgf@x=.5\wd\pgfnodeparttextbox
     \pgf@y=-.5\ht\pgfnodeparttextbox
@@ -475,6 +487,9 @@
 }
 \makeatother
 
+
+
+%%%%%%%%%%%% sender (a mast with waves)
 \makeatletter
 \pgfdeclareshape{sender}{
   \savedanchor\centerpoint{%
@@ -508,6 +523,8 @@
   }
 }
 \makeatother
+
+
 
 %%% Local Variables: 
 %%% mode: latex
